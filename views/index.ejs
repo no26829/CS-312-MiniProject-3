@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/styles/main.css">
+  <title>Naima's Mini-Blog Project</title>
+</head>
+<body>
+  <h1>Naima's Mini-Blog Project</h1>
+  
+  <ul>
+    <% blogPosts.forEach(post => { %>
+      <li>
+        <h2><%= post.title %></h2>
+        <div class="post-container">
+          <p><%= post.body %></p>
+          <small>Posted by: <%= post.creator_name %></small><br>
+          <small>Posted on: <%= post.date_created %></small><br><br>
+        </div>
+
+        <% if (session && post.creator_user_id === session.user_id) { %>
+          <a href="/edit/<%= post.blog_id %>" class="edit-css">Edit</a><br><br>
+          <form method="post" action="/delete/<%= post.blog_id %>">
+            <button type="submit">Delete</button>
+          </form>
+        <% } %>
+      </li>
+    <% }); %>
+  </ul>
+
+  <!-- Check if signed  -->
+  <% if (session && session.user_id) { %>
+    <a href="/new" class="button">New Post</a>
+  <% } else { %>
+    <p><a href="/signin">Sign in here to create a new post!!!</a></p>
+    <p>If you don't have an account. Click here -> <a href="/signup">Sign up here :D</a></p>
+  <% } %>
+  
+</body>
+</html>
